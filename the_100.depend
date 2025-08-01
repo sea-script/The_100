@@ -1,0 +1,14 @@
+# depslib dependency file v1.0
+1754091523 source:c:\users\salah\desktop\the_100\main.cpp
+	<iostream>
+	"the_100.h"
+
+1754091628 c:\users\salah\desktop\the_100\the_100.h
+	<vector>
+
+1754091596 source:c:\users\salah\desktop\the_100\the_100.cpp
+	"the_100.h"
+	<cstdlib>
+	<ctime>
+	<algorithm>
+

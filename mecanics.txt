@@ -1,0 +1,40 @@
+use these in the game:
+std::cin.ignore();
+
+cars:
+-random number of passengers from 1-4, the higher the number of passengers, the less likely to steal it (it goes by 50% for every passenger more than 1)
+1 --> x1 = (50-100%)
+2 --> x2 = x1/2
+3 --> x3 = x2/2 = x1/4
+4 --> x4 = x3/2 = x1/8
+-locked or not: 50 50 chance
+-speed: from 60km/h to 120km/h (random)
+-fuel: you can't refill it, and it is calculated by fuel/100km (ex: 4.4 l/100 km)
+
+people:
+-have an array with 1000 people, and randomly choose 100 indexes to be in the club
+-1% of the rest are cops, that if you happen to attack, have a higher chance of killing you. The more people you kill, the higher is the % of cops in the area.
+-killing people gets you money (10-100$), killing a cop gets you a glock with 14 bullets.
+-cops are just an rng, no need to store their indexes somewhere, this chance increases according to diffrent towns
+
+areas/town:
+-5 areas, the top, the left, the center, the right and the bottom.
+-all areas have hiding spots (behind the dumpster, a car or a store), they have a random chance of working (maybe have a luck parameter)
+-you can buy/steal weapons from the store, stealing has a random chance of working, if not, you can't enter the store anymore
+-each town starts with 200 people
+
+weapons:
+-pencil: the default, deals 15 (?) dmg, breaks after 4-5 hits
+-knife: 30-50 dmg
+-Axe: 60-100 dmg
+-gun: 9 bullets, instant kill
+-nothing/hands: 10 dmg
+
+you (struct):
+-speed: a random value from (3-7km/h for walking, 24-34 km/h for running)
+-you start with a pencil as a weapon
+-spawn point: the center
+-money: you start with 10$
+-stamina: a value from 1-100, it's used in attacks (stamina + 2*damage)/3, you start with 100, and loose it when traveling or fighting
+-luck: 1-100. The higher the luck, the better the range of randomness is
+ ex: luck is 40, and the range of randomness of beating 1 passenger is 50-100, so the range is 50, with a 40% luck, we minimize the range by 40% (40% of 50 = 20 added to the minimum value), so the new range starts from (50+20)=70 - 100, so if the rng is less than 70 (which has 70% chance of happening), then you can get the car
