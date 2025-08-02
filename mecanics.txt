@@ -19,9 +19,10 @@ people:
 
 areas/town:
 -5 areas, the top, the left, the center, the right and the bottom.
--all areas have hiding spots (behind the dumpster, a car or a store), they have a random chance of working (maybe have a luck parameter)
+-all areas have hiding spots (behind the dumpster, a car or a store), they have a random chance of working (maybe have a luck parameter) (might remove)
 -you can buy/steal weapons from the store, stealing has a random chance of working, if not, you can't enter the store anymore
 -each town starts with 200 people
+-distance from the center is
 
 weapons:
 -pencil: the default, deals 15 (?) dmg, breaks after 4-5 hits
@@ -38,3 +39,20 @@ you (struct):
 -stamina: a value from 1-100, it's used in attacks (stamina + 2*damage)/3, you start with 100, and loose it when traveling or fighting
 -luck: 1-100. The higher the luck, the better the range of randomness is
  ex: luck is 40, and the range of randomness of beating 1 passenger is 50-100, so the range is 50, with a 40% luck, we minimize the range by 40% (40% of 50 = 20 added to the minimum value), so the new range starts from (50+20)=70 - 100, so if the rng is less than 70 (which has 70% chance of happening), then you can get the car
+
+ actions:
+ >all actions, no order:
+ -attack a civilian: you enter fighting mode, where you can:
+ -hit
+ -talk (first before attack?)
+ -act crazy/aggressive/calm, each person has 3 parameters --> scared, trust, confused
+ if just confused: the % of attack increases (surprise attack)
+ if just scared: depends, if cop, the % decreases, else, it increases
+ if just trust: the % increases
+ Note: rewrite the equation for attack probability (luck + emotion)
+ -or flee
+ -go to store
+ -buy
+ -steal
+ -steal a car
+ -drive/run to a town (will use _sleep)
