@@ -67,6 +67,9 @@ void initialize_towns(){
         Town_3.residents.push_back(&people_vec[i+(200*3)]);
         Town_4.residents.push_back(&people_vec[i+(200*4)]);
     }
+    for(int i = 0; i<sizeof(locations)/sizeof(locations[0]); i++){
+        locations[i]->deaths = 0;
+    }
 }
 
 //INIT
@@ -107,12 +110,38 @@ void print_town_info(){
 
 }
 
-int period_per_speed(int speed, int distance){
+int period_per_speed(int speed, int distance){ //might nit need it
     //1000 * 60 -> 1min
-    return (distance/speed) * 60 * 1000;
+    return ((float)distance/speed) * 60 * 1000;
 }
 
-void travel(){
+bool correct_town_choice(std::string player_choice){
+    if(player_choice == "0" || player_choice == "1" || player_choice == "2" || player_choice == "3" || player_choice == "4"){
+        return true;
+    }else{
+        return false;
+    }
+}
+
+int town_to_num(town* current_town){
+    if (current_town == &Town_0){
+        return 0;
+    }else if(current_town == &Town_1){
+        return 1;
+    }else if(current_town == &Town_2){
+        return 2;
+    }else if(current_town == &Town_3){
+        return 3;
+    }else if(current_town == &Town_4){
+        return 4;
+    }
+}
+
+//ACTIONS
+void travel(int speed){ //takes either the car's speed, or your running speed
+    const int DIST_ADJACENT = 60;   // km
+    const int MS_PER_SEC    = 1000; // ms in a second
+    const int MINUTES_TO_SECONDS = 60;
     cout << "Which town you want to go to? (the distance between 2 adjacent towns is 60km)\n";
     cout << "+--------------------------------------------+\n";
     cout << "|               North town(0)                |\n";
@@ -121,5 +150,89 @@ void travel(){
     cout << "|                     |                      |\n";
     cout << "|               South town(4)                |\n";
     cout << "+--------------------------------------------+\n";
-    //options (choose) or (quit)
+
+    //where you're at
+    cout << "You are at: " << which_town(YOU.current_town) << ".\n";
+    int player_choice;
+    cout << "Enter the number of the town: \n";
+    do{
+        cout << ">> ";
+        std::cin >> player_choice;
+    }while(player_choice>4 || player_choice<0);
+
+    //distance calculation
+    int distance;
+    if(YOU.current_town == &Town_2){ //if you are at the center, the max distance is 60, and min is 0
+        if(player_choice == 2){
+            distance = 0;
+        }else{
+            distance = DIST_ADJACENT; //60 km
+        }
+    }else{
+        if(player_choice == 2){ //if you are not, the max is 120 and min is 0 again
+            distance = DIST_ADJACENT;
+        }else if(player_choice == town_to_num(YOU.current_town)){
+            distance = 0;
+        }else{ //other town than yours
+            distance = DIST_ADJACENT*2; //120 km :o
+        }
+    }
+
+    cout << "Traveling to Town (" << player_choice << ")\n";
+
+    cout << "Time to arrive: ";
+
+    //calculating the time
+    int time = 0;
+    if(player_choice == town_to_num(YOU.current_town)){
+        time = 0;
+    }else{
+        time = (float)((float)distance/(float)speed) * MINUTES_TO_SECONDS * MS_PER_SEC; //every second is 1000 + mins -> secs
+    }
+
+    cout << time/MS_PER_SEC << " secs\n";
+
+    //waiting process
+    while(time > 0){
+        _sleep(MS_PER_SEC);
+        time -= MS_PER_SEC;
+        cout << time/MS_PER_SEC << " sec\n";
+    }
+
+    //done!
+    YOU.current_town = locations[player_choice];
+    cout << "You are now at " << which_town(YOU.current_town) << " \n";
+}
+
+void encounter(){
+    int cop_chance = (YOU.current_town->deaths/2); //every 2 kills increases the chance by 1%
+    if(cop_chance == 0){
+        cop_chance = 1;
+    }
+    int person_num = getRandom_inRange(0,YOU.current_town->residents.size()-1); // a random civilian
+
+    //if is not in the club
+    if(YOU.current_town->residents[person_num]->member == true){
+        cout << "Not in the club. \n";
+        //if a cop or not
+        if(getRandom_inRange(cop_chance, 100) <= cop_chance){ //if the number is less or equal to the chance, then it's a cop (luck doesn't affect this chance)
+            cout << "is a cop. \n";
+        }else{
+            cout << "Not a cop. \n";
+        }
+    }else{//if is in the club
+        cout << "In the club! " << person_num << "\n";
+    }
+}
+
+void encounter_civilian(){
+
+}
+
+void encounter_cop(){
+
+}
+
+void encounter_memeber(){
+
 }

@@ -12,7 +12,7 @@ struct people{
 
 struct town{
     std::vector<people*> residents;
-    //deaths
+    int deaths;
 };
 
 struct player{ //the player type
@@ -48,7 +48,12 @@ void initialize_all(); //to save space
 
 //printing func
 void print_town_info();
-void travel();
+void travel(int speed);
+
+void encounter();
+void encounter_civilian();
+void encounter_cop();
+void encounter_memeber();
 
 #endif
 

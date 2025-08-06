@@ -56,3 +56,5 @@ you (struct):
  -steal
  -steal a car
  -drive/run to a town (will use _sleep)
+v = d/T
+T = d/V

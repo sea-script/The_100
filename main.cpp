@@ -19,12 +19,14 @@ int main()
     cout << "money: " << YOU.money << "\n";
     cout << "luck: " << YOU.luck << "\n";
 
+    /*
     cout << "all club memebers: \n";
     for(int i = 0; i<club_members_index.size(); i++){
         cout << "memeber " << i+1 << " money: " << club_members_index[i]->money << " is memebre? : " << club_members_index[i]->member << "\n";
     }
+    */
     cout << "\n";
     print_town_info();
-    travel();
+    encounter();
     return 0;
 }
